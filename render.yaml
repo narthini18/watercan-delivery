@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: watercan-delivery
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app --bind 0.0.0.0:$PORT --workers 2
+    envVars:
+      - key: SECRET_KEY
+        generateValue: true
+      - key: PRICE_PER_CAN
+        value: 50
+      - key: FLASK_ENV
+        value: production
+    disk:
+      name: watercan-data
+      mountPath: /opt/render/project/src/instance
+      sizeGB: 1
